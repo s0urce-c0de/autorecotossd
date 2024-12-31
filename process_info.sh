@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TMP="${TMP:-$(mktmp -d)}"
+TMP="${TMP:-$(mktemp -d)}"
 DL_PATH="$(realpath "$(basename "$URL")")"
 printf "Using $TMP as the temporary directory\n"
 printf "Moving into the temporary directory\n"
@@ -9,7 +9,7 @@ printf "Downloading $URL into $DL_PATH\n"
 curl -o "$DL_PATH" "$URL"
 printf "Starting hash checks\n"
 if [ -z $SHA1 ]; then
-  printf "Skipping SHA1"
+  printf "Skipping SHA1\n"
 else
   printf "Preloaded hash: $SHA1\nCalculating new hash\n"
   SHA1_CALCULATED_HASH="$(openssl dgst -sha1 -hex $DL_PATH | awk '{ print $NF }')"
@@ -23,7 +23,7 @@ else
 fi
 
 if [ -z $MD5 ]; then
-  printf "Skipping MD5"
+  printf "Skipping MD5\n"
 else
   printf "Preloaded hash: $MD5\nCalculating new hash\n"
   MD5_CALCULATED_HASH="$(openssl dgst -md5 -hex $DL_PATH | awk '{ print $NF }')"
@@ -37,6 +37,9 @@ else
 fi
 
 printf "Extracting ZIP archive\n"
-unzip $DL_PATH $FILE
-printf "Running RecoToSSD. Enter sudo password if needed"
+yes | unzip -j $DL_PATH -d . && rm $DL_PATH
+printf "Running RecoToSSD. Enter sudo password if needed\n"
 sudo $OLDPWD/recotossd.sh $FILE
+xz -vvz9ec -T 0 $FILE > $FILE.xz
+gh release create --title "$BOARD-v$VERSION" "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $CHANNEL-channel" --notes "RecoToSSD Release for board $BOARD:\nChrome Version: $CHROME_VERSION\nChromeOS/Platform Version: $VERSION\nChannel: $CHANNEL" FILE.xz
+gh

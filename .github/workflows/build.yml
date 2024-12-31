@@ -4,14 +4,23 @@ on:
     - cron: 0 */4 * * * # Once every 3 hours
   workflow_dispatch:
 permissions:
-  issues: write
-  pull-requests: write
+  contents: write
 jobs:
   fetch_build_and_upload:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build RecoToSSD
-        run: ./fetch_iter.sh
-        
+      - name: Update Packages and install cgpt
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade \
+            -o Dpkg::Options::=--force-confold \
+            -o Dpkg::Options::=--force-confdef \
+            -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+          sudo apt-get install cgpt \
+            -o Dpkg::Options::=--force-confold \
+            -o Dpkg::Options::=--force-confdef \
+            -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+      - name: Build RecoToSSD and Upload to GitHub Releases
+        run: PUSH_TO_GITHUB=1 ./fetch_iter.sh
