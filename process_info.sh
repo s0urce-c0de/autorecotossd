@@ -38,5 +38,5 @@ fi
 
 printf "Extracting ZIP archive\n"
 unzip $DL_PATH $FILE
-printf "Running RecoToSSD"
-$OLDPWD/recotossd.sh $FILE
+printf "Running RecoToSSD. Enter sudo password if needed"
+sudo $OLDPWD/recotossd.sh $FILE
