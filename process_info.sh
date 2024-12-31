@@ -6,7 +6,7 @@ printf "Using $TMP as the temporary directory\n"
 printf "Moving into the temporary directory\n"
 cd $TMP
 printf "Downloading $URL into $DL_PATH\n"
-# curl -o "$DL_PATH" "$URL"
+curl -o "$DL_PATH" "$URL"
 printf "Starting hash checks\n"
 if [ -z $SHA1 ]; then
   printf "Skipping SHA1"
@@ -37,6 +37,6 @@ else
 fi
 
 printf "Extracting ZIP archive\n"
-# unzip $DL_PATH $FILE
+unzip $DL_PATH $FILE
 printf "Running RecoToSSD"
 ./recotossd.sh
