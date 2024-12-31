@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TMP="${TMP:-$(mktEmpdir -d)}"
+TMP="${TMP:-$(mktmpdir -d)}"
 DL_PATH="$(realpath "$(basename "$URL")")"
 printf "Using $TMP as the temporary directory\n"
 printf "Moving into the temporary directory\n"
