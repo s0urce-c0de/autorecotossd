@@ -4,7 +4,7 @@ TMP="${TMP:-$(mktemp -d)}"
 DL_PATH="$(realpath "$(basename "$URL")")"
 printf "Using $TMP as the temporary directory\n"
 printf "Moving into the temporary directory\n"
-cd $TMP
+cd "$TMP"
 printf "Downloading $URL into $DL_PATH\n"
 curl -o "$DL_PATH" "$URL"
 printf "Starting hash checks\n"
@@ -37,15 +37,16 @@ else
 fi
 
 printf "Extracting ZIP archive\n"
-yes | unzip -j $DL_PATH -d . && rm $DL_PATH
+yes | unzip -j $DL_PATH -d .
 printf "Running RecoToSSD. Enter sudo password if needed\n"
-sudo $OLDPWD/recotossd.sh $FILE
+sudo "$OLDPWD/recotossd.sh" "$FILE"
 if [ "$PUSH_TO_GITHUB" -eq 1 ]; then
   xz -vvz9ec -T 0 $FILE > $FILE.xz
   cd -
-  gh release create "$BOARD/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
+  gh release create "$BOARD/$CHANNEL/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
 Chrome Version: $CHROME_VERSION
 ChromeOS/Platform Version: $VERSION
-Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" $OLDPWD/$FILE.xz
-  rm -f $OLDPWD/$FILE.xz
+Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$DL_PATH#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION)"
+  rm -f $OLDPWD/$FILE.xz $OLDPWD/$FILE $DL_PATH
+  rm -rf $OLDPWD
 fi
