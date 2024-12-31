@@ -39,4 +39,4 @@ fi
 printf "Extracting ZIP archive\n"
 unzip $DL_PATH $FILE
 printf "Running RecoToSSD"
-./recotossd.sh
+$OLDPWD/recotossd.sh
