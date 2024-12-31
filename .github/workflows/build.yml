@@ -24,3 +24,5 @@ jobs:
             -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
       - name: Build RecoToSSD and Upload to GitHub Releases
         run: PUSH_TO_GITHUB=1 ./fetch_iter.sh
+        env:
+          GH_TOKEN: ${{ github.token }}

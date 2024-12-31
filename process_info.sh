@@ -40,6 +40,7 @@ printf "Extracting ZIP archive\n"
 yes | unzip -j $DL_PATH -d . && rm $DL_PATH
 printf "Running RecoToSSD. Enter sudo password if needed\n"
 sudo $OLDPWD/recotossd.sh $FILE
-xz -vvz9ec -T 0 $FILE > $FILE.xz
-gh release create --title "$BOARD-v$VERSION" "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $CHANNEL-channel" --notes "RecoToSSD Release for board $BOARD:\nChrome Version: $CHROME_VERSION\nChromeOS/Platform Version: $VERSION\nChannel: $CHANNEL" FILE.xz
-gh
+if [ "$PUSH_TO_GITHUB" -eq 0 ]; then
+  xz -vvz9ec -T 0 $FILE > $FILE.xz
+  gh release create --title "$BOARD-v$VERSION" "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $CHANNEL-channel" --notes "RecoToSSD Release for board $BOARD:\nChrome Version: $CHROME_VERSION\nChromeOS/Platform Version: $VERSION\nChannel: $CHANNEL" FILE.xz
+fi
