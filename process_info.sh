@@ -43,6 +43,9 @@ sudo $OLDPWD/recotossd.sh $FILE
 if [ "$PUSH_TO_GITHUB" -eq 1 ]; then
   xz -vvz9ec -T 0 $FILE > $FILE.xz
   cd -
-  echo gh release create "$BOARD/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:\nChrome Version: $CHROME_VERSION\nChromeOS/Platform Version: $VERSION\nChannel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" $OLDPWD/$FILE.xz
-  gh release create "$BOARD/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:\nChrome Version: $CHROME_VERSION\nChromeOS/Platform Version: $VERSION\nChannel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" $OLDPWD/$FILE.xz
+  gh release create "$BOARD/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
+  Chrome Version: $CHROME_VERSION
+  ChromeOS/Platform Version: $VERSION
+  Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" $OLDPWD/$FILE.xz
+  rm -f $OLDPWD/$FILE.xz
 fi
