@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -xe
 dd if=/dev/zero status=progress bs=1G count=2 >>"$1"
 echo "w" | fdisk "$1" 2>/dev/null
 (
