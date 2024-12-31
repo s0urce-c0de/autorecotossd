@@ -1,0 +1,14 @@
+name: Build RecoToSSD Images
+on:
+  schedule:
+    - cron: 0 */4 * * * # Once every 3 hours
+  workflow_dispatch:
+permissions:
+  issues: write
+  pull-requests: write
+jobs:
+  fetch_build_and_upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build RecoToSSD
+        run: ./fetch_iter.sh
