@@ -8,23 +8,20 @@ permissions:
 jobs:
   fetch_build_and_upload:
     runs-on: ubuntu-latest
+    container:
+      image: archlinux:basedevel
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Firefox updates
-        run: sudo apt-mark hold firefox
-      - name: Update Packages and install cgpt
-        run: |
-          sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade \
-            -o Dpkg::Options::=--force-confold \
-            -o Dpkg::Options::=--force-confdef \
-            -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
-          sudo apt-get install cgpt \
-            -o Dpkg::Options::=--force-confold \
-            -o Dpkg::Options::=--force-confdef \
-            -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+      - name: Update packages and install some necessities
+        run: pacman -Syu --needed --noconfirm git
+      - name: Create a new user
+        run: useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user)
+      - name: Install yay
+        run: sudo -urunner bash -c "git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -sri --needed --noconfirm && rm -rf ~/.cache ~/yay"
+      - name: Install CGPT (via vboot-utils)
+        run: yay -S --noconfirm vboot-utils
       - name: Build RecoToSSD and Upload to GitHub Releases
-        run: PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
+        run: sudo -urunner PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
         env:
           GH_TOKEN: ${{ github.token }}
