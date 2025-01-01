@@ -16,7 +16,7 @@ jobs:
       - name: Update packages and install some necessities
         run: pacman -Syu --needed --noconfirm git
       - name: Create a new user
-        run: useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user)
+        run: useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/runner)
       - name: Install yay
         run: sudo -urunner bash -c "git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -sri --needed --noconfirm && rm -rf ~/.cache ~/yay"
       - name: Install CGPT (via vboot-utils)
