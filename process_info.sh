@@ -46,7 +46,7 @@ if [ "$PUSH_TO_GITHUB" -eq 1 ]; then
   gh release create "$BOARD/$CHANNEL/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
 Chrome Version: $CHROME_VERSION
 ChromeOS/Platform Version: $VERSION
-Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$DL_PATH#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION).zip"
+Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$OLDPWD/$DL_PATH#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION).zip"
   rm -f $OLDPWD/$FILE.xz $OLDPWD/$FILE $OLDPWD/$DL_PATH
   rm -rf $OLDPWD
 else
