@@ -1,7 +1,7 @@
 name: Build RecoToSSD Images
 on:
   schedule:
-    - cron: 0 */12 * * * # Once every 3 hours
+    - cron: 0 */6 * * * # Once every 3 hours
   workflow_dispatch:
 permissions:
   contents: write
