@@ -49,4 +49,7 @@ ChromeOS/Platform Version: $VERSION
 Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$DL_PATH#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION).zip"
   rm -f $OLDPWD/$FILE.xz $OLDPWD/$FILE $DL_PATH
   rm -rf $OLDPWD
+else
+  cd -
+  cp $OLDPWD/$FILE .
 fi
