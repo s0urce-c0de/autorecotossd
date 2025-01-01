@@ -1,12 +1,12 @@
 #!/bin/sh
 
 TMP="${TMP:-$(mktemp -d)}"
-DL_PATH="$(realpath "$(basename "$URL")")"
+DL_PATH="$(basename "$URL")"
 printf "Using $TMP as the temporary directory\n"
 printf "Moving into the temporary directory\n"
 cd "$TMP"
 printf "Downloading $URL into $DL_PATH\n"
-curl -o "$DL_PATH" "$URL"
+curl --no-progress-meter -o "$DL_PATH" "$URL"
 printf "Starting hash checks\n"
 if [ -z $SHA1 ]; then
   printf "Skipping SHA1\n"
@@ -47,7 +47,7 @@ if [ "$PUSH_TO_GITHUB" -eq 1 ]; then
 Chrome Version: $CHROME_VERSION
 ChromeOS/Platform Version: $VERSION
 Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$DL_PATH#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION).zip"
-  rm -f $OLDPWD/$FILE.xz $OLDPWD/$FILE $DL_PATH
+  rm -f $OLDPWD/$FILE.xz $OLDPWD/$FILE $OLDPWD/$DL_PATH
   rm -rf $OLDPWD
 else
   cd -
