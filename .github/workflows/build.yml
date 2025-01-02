@@ -22,6 +22,6 @@ jobs:
       - name: Install CGPT (via vboot-utils)
         run: sudo -urunner yay -S --noconfirm vboot-utils
       - name: Build RecoToSSD and Upload to GitHub Releases
-        run: sudo -urunner PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
+        run: sudo -E -urunner PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
         env:
           GH_TOKEN: ${{ github.token }}
