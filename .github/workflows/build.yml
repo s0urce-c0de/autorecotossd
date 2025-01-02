@@ -11,14 +11,14 @@ jobs:
     container:
       image: archlinux:base-devel
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Update packages and install some necessities
         run: pacman -Syu --needed --noconfirm git jq github-cli
       - name: Create a new user
         run: useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/runner)
       - name: Install yay
         run: sudo -urunner bash -c "cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -sri --needed --noconfirm && rm -rf ~/.cache ~/yay"
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Install CGPT (via vboot-utils)
         run: sudo -urunner yay -S --noconfirm vboot-utils
       - name: Build RecoToSSD and Upload to GitHub Releases
