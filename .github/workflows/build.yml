@@ -13,7 +13,7 @@ jobs:
     steps:
         # Setup arch
       - name: Update packages and install some necessities
-        run: pacman -Syu --needed --noconfirm git jq github-cli
+        run: pacman -Syu --needed --noconfirm git jq github-cli unzip
       - name: Create a new user
         run: useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/runner)
       - name: Install yay
