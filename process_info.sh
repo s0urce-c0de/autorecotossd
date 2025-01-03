@@ -1,7 +1,7 @@
 #!/bin/sh
 
 [ "${PUSH_TO_GITHUB:-0}" -eq 1 ] && \
-git ls-remote --tags --exit-code . "$BOARD/$CHANNEL/v$VERSION" >/dev/null && \
+git ls-remote --tags --exit-code "${GIT_REPO:-.}" "$BOARD/$CHANNEL/v$VERSION" >/dev/null && \
 exit
 
 TMP="${TMP:-$(mktemp -d)}"

@@ -28,6 +28,6 @@ jobs:
       - name: Git fetch to update repo
         run: git fetch
       - name: Build RecoToSSD and Upload to GitHub Releases
-        run: sudo -E -urunner PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
+        run: sudo -E -urunner GIT_REPO="${{ github.server_url }}/${{ github.repository }}" PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
         env:
           GH_TOKEN: ${{ github.token }}
