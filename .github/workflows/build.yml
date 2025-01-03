@@ -21,12 +21,12 @@ jobs:
         run: sudo -urunner bash -c "cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -sri --needed --noconfirm && rm -rf ~/.cache ~/yay"
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Git fetch to update repo
-        run: git fetch
       - name: Install CGPT (via vboot-utils)
         run: sudo -urunner yay -S --noconfirm vboot-utils
       - name: Fix Dubious Ownership
         run: git config --global --add safe.directory '*' && sudo -urunner git config --global --add safe.directory '*'
+      - name: Git fetch to update repo
+        run: git fetch
       - name: Build RecoToSSD and Upload to GitHub Releases
         run: sudo -E -urunner PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
         env:
