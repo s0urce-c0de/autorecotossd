@@ -1,5 +1,9 @@
 #!/bin/sh
 
+[ "${PUSH_TO_GITHUB:-0}" -eq 1 ] && \
+git ls-remote --tags --exit-code . "$BOARD/$CHANNEL/v$VERSION" >/dev/null && \
+exit
+
 TMP="${TMP:-$(mktemp -d)}"
 DL_PATH="$(basename "$URL")"
 printf "Using $TMP as the temporary directory\n"
@@ -40,7 +44,7 @@ printf "Extracting ZIP archive\n"
 yes | unzip -j $DL_PATH -d .
 printf "Running RecoToSSD. Enter sudo password if needed\n"
 sudo "$OLDPWD/recotossd.sh" "$FILE"
-if [ "$PUSH_TO_GITHUB" -eq 1 ]; then
+if [ "${PUSH_TO_GITHUB:-0}" -eq 1 ]; then
   xz -vvz9ec -T 0 $FILE > $FILE.xz
   cd -
   gh release create "$BOARD/$CHANNEL/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
