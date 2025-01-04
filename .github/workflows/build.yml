@@ -25,8 +25,6 @@ jobs:
         run: sudo -urunner yay -S --noconfirm vboot-utils >/dev/null
       - name: Fix Dubious Ownership
         run: git config --global --add safe.directory '*' && sudo -urunner git config --global --add safe.directory '*'
-      - name: Git fetch to update repo
-        run: git fetch
       - name: Build RecoToSSD and Upload to GitHub Releases
         run: sudo -E -urunner GIT_REPO="${{ github.server_url }}/${{ github.repository }}" PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
         env:
