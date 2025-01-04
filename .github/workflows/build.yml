@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux:base-devel
-      options: --privileged -v /dev:/dev
+      options: --privileged -v /dev:/dev -v /mnt:/mnt
     steps:
         # Setup arch
       - name: Update packages and install some necessities
