@@ -23,6 +23,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install CGPT (via vboot-utils)
         run: sudo -urunner yay -S --noconfirm vboot-utils >/dev/null
+      - name: Clear Pacman Cache
+        run: sudo -urunner yay -Scc
       - name: Fix Dubious Ownership
         run: git config --global --add safe.directory '*' && sudo -urunner git config --global --add safe.directory '*'
       - name: Build RecoToSSD and Upload to GitHub Releases
