@@ -26,6 +26,6 @@ jobs:
       - name: Fix Dubious Ownership
         run: git config --global --add safe.directory '*' && sudo -urunner git config --global --add safe.directory '*'
       - name: Build RecoToSSD and Upload to GitHub Releases
-        run: sudo -E -urunner GIT_REPO="${{ github.server_url }}/${{ github.repository }}" PUSH_TO_GITHUB=1 THREADS=5 ./fetch_iter.sh
+        run: sudo -E -urunner GIT_REPO="${{ github.server_url }}/${{ github.repository }}" PUSH_TO_GITHUB=1 THREADS=3 ./fetch_iter.sh
         env:
           GH_TOKEN: ${{ github.token }}
