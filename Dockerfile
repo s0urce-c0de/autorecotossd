@@ -16,4 +16,4 @@ WORKDIR $HOME/autorecotossd
 RUN yay -S --noconfirm vboot-utils >/dev/null
 RUN yay -Scc
 
-./fetch_iter.sh
+RUN ./fetch_iter.sh
