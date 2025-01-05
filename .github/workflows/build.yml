@@ -44,6 +44,8 @@ jobs:
             microsoft-edge-stable \--fix-missing
           sudo apt-get autoremove --purge -y
           sudo apt-get clean
+      - name: Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build Docker Image
         run: docker build -t arch-image .
       - name: Run the command
