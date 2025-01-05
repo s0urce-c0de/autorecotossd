@@ -8,9 +8,6 @@ permissions:
 jobs:
   fetch_build_and_upload:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux:base-devel
-      options: --privileged -v /dev:/dev -v /mnt:/mnt
     steps:
       - name: Clean old packages
         run: |
@@ -49,4 +46,4 @@ jobs:
       - name: Build Docker Image
         run: docker build -t arch-image .
       - name: Run the command
-        run: docker run arch-image ./fetch_iter.sh
+        run: docker run arch-image ./fetch_iter.sh --privileged -v /dev:/dev -v /mnt:/mnt
