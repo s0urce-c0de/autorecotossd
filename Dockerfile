@@ -3,7 +3,7 @@
 FROM archlinux:base-devel
 ARG GIT_REPO="https://github.com/s0urce-c0de/autorecotossd"
 
-RUN pacman -Syu
+RUN pacman -Syu --noconfirm
 RUN pacman -S --needed --noconfirm git jq github-cli unzip
 RUN useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL\n" >> /etc/sudoers)
 
