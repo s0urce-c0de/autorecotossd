@@ -44,6 +44,8 @@ jobs:
           sudo apt-get clean
       - name: Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Build Docker Image
         run: docker build -t arch-image .
       - name: Run the command
