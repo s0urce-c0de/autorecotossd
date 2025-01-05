@@ -12,22 +12,39 @@ jobs:
       image: archlinux:base-devel
       options: --privileged -v /dev:/dev -v /mnt:/mnt
     steps:
-        # Setup arch
-      - name: Update packages and install some necessities
-        run: pacman -Syu --needed --noconfirm git jq github-cli unzip
-      - name: Create a new user
-        run: useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/runner)
-      - name: Install yay
-        run: sudo -urunner bash -c "cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -sri --needed --noconfirm && rm -rf ~/.cache ~/yay"
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install CGPT (via vboot-utils)
-        run: sudo -urunner yay -S --noconfirm vboot-utils >/dev/null
-      - name: Clear Pacman Cache
-        run: sudo -urunner yay -Scc
-      - name: Fix Dubious Ownership
-        run: git config --global --add safe.directory '*' && sudo -urunner git config --global --add safe.directory '*'
-      - name: Build RecoToSSD and Upload to GitHub Releases
-        run: sudo -E -urunner GIT_REPO="${{ github.server_url }}/${{ github.repository }}" PUSH_TO_GITHUB=1 THREADS=3 ./fetch_iter.sh
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Clean old packages
+        run: |
+          sudo rm -rf /usr/local/lib/android \
+            /usr/share/dotnet \
+            /opt/ghc \
+            /usr/local/.ghcup \
+            /opt/hostedtoolcache \
+           /usr/local/graalvm \
+           /usr/local/share/powershell \
+           /usr/local/share/chromium \
+           /usr/local/lib/node_modules \
+           "$AGENT_TOOLSDIRECTORY"
+          # Docker
+          sudo docker image prune --all --force
+          # Big useless bs
+          sudo apt-get purge -y '^aspnetcore-.*'
+          sudo apt-get purge -y '^dotnet-.*' --fix-missing
+          sudo apt-get purge -y '^llvm-.*' --fix-missing
+          sudo apt-get purge -y 'php.*' --fix-missing
+          sudo apt-get purge -y '^mongodb-.*' --fix-missing
+          sudo apt-get purge -y '^mysql-.*' --fix-missing
+          sudo apt-get purge -y azure-cli \
+            google-chrome-stable \
+            firefox powershell \
+            mono-devel \
+            snapd \
+            libgl1-mesa-dri \
+            google-cloud-sdk \
+            google-cloud-cli \
+            microsoft-edge-stable \--fix-missing
+          sudo apt-get autoremove --purge -y
+          sudo apt-get clean
+      - name: Build Docker Image
+        run: docker build -t arch-image .
+      - name: Run the command
+        run: docker run arch-image ./fetch_iter.sh
