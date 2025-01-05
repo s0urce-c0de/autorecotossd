@@ -49,4 +49,6 @@ jobs:
       - name: Build Docker Image
         run: docker build -t arch-image .
       - name: Run the command
-        run: docker run arch-image ./fetch_iter.sh --privileged -v /dev:/dev -v /mnt:/mnt
+        run: docker run arch-image ./fetch_iter.sh --privileged -v /dev:/dev -v /mnt:/mnt -e PUSH_TO_GITHUB=1 -e THREADS=5 -e GH_TOKEN="$GH_TOKEN"
+        env:
+          GH_TOKEN: ${{ github.token }}
