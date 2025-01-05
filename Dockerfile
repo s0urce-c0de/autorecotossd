@@ -20,5 +20,5 @@ RUN git clone $GIT_REPO autorecotossd
 WORKDIR $HOME/autorecotossd
 
 RUN yay -S --noconfirm vboot-utils >/dev/null
-RUN yay -Scc
+RUN yay -Scc --noconfirm
 
