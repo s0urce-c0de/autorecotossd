@@ -38,7 +38,8 @@ jobs:
             libgl1-mesa-dri \
             google-cloud-sdk \
             google-cloud-cli \
-            microsoft-edge-stable \--fix-missing
+            microsoft-edge-stable \
+            --fix-missing
           sudo apt-get autoremove --purge -y
           sudo apt-get clean
       - name: Docker Buildx
