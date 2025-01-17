@@ -46,12 +46,13 @@ printf "Running RecoToSSD. Enter sudo password if needed\n"
 sudo "$OLDPWD/recotossd.sh" "$FILE"
 if [ "${PUSH_TO_GITHUB:-0}" -eq 1 ]; then
   xz -vvz9ec -T 0 $FILE > $FILE.xz
+  unzip -p "$DL_PATH" "$FILE" | xz -vvz9ec -T 0 > base.xz
   cd -
   ls -la $OLDPWD
   gh release create "$BOARD/$CHANNEL/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
 Chrome Version: $CHROME_VERSION
 ChromeOS/Platform Version: $VERSION
-Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$OLDPWD/$DL_PATH#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION).zip"
+Channel: $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")" "$OLDPWD/$FILE.xz#$BOARD RecoToSSD v$CHROME_VERSION (Platform: v$VERSION).xz" "$OLDPWD/base.xz#Base Recovery Image (Chome v$CHROME_VERSION) (ChromeOS Version: v$VERSION).xz"
   rm -f $OLDPWD/$FILE.xz $OLDPWD/$FILE $OLDPWD/$DL_PATH
   rm -rf $OLDPWD
 else
