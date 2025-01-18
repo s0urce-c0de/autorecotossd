@@ -55,7 +55,7 @@ jobs:
             -v /dev:/dev \
             -v /mnt:/mnt \
             -e PUSH_TO_GITHUB=1 \
-            -e THREADS=5\
+            -e THREADS=3 \
             -e GH_TOKEN="$GH_TOKEN" \
             -e GITHUB_ACTIONS=1 \
             -e CI=1 \
