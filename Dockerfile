@@ -19,6 +19,7 @@ RUN rm -rf $HOME/.cache $HOME/yay
 RUN git clone $GIT_REPO autorecotossd
 WORKDIR $HOME/autorecotossd
 
-RUN yay -S --noconfirm vboot-utils >/dev/null
+RUN pacman -S --noconfirm flashrom
+RUN yay -S --noconfirm --assume-installed flashrom-git vboot-utils >/dev/null
 RUN yay -Scc --noconfirm
 
