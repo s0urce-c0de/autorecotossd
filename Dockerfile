@@ -4,7 +4,7 @@ FROM archlinux:base-devel
 ARG GIT_REPO="https://github.com/s0urce-c0de/autorecotossd"
 
 RUN pacman -Syu --noconfirm
-RUN pacman -S --needed --noconfirm flashrom git jq github-cli unzip
+RUN pacman -S --needed --noconfirm git jq github-cli unzip
 RUN useradd --create-home runner && (printf "runner ALL=(ALL:ALL) NOPASSWD:ALL\n" >> /etc/sudoers)
 
 USER runner
@@ -19,6 +19,6 @@ RUN rm -rf $HOME/.cache $HOME/yay
 RUN git clone $GIT_REPO autorecotossd
 WORKDIR $HOME/autorecotossd
 
-RUN yay -S --noconfirm --assume-installed flashrom-git vboot-utils >/dev/null
+RUN yay -S --noconfirm cgpt-bin >/dev/null
 RUN yay -Scc --noconfirm
 
