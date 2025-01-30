@@ -45,8 +45,8 @@ yes | unzip -j $DL_PATH -d .
 printf "Running RecoToSSD. Enter sudo password if needed\n"
 sudo "$OLDPWD/recotossd.sh" "$FILE"
 if [ "${PUSH_TO_GITHUB:-0}" -eq 1 ]; then
-  xz -vvz9ec -T 2 $FILE > $FILE.xz
-  xz -vvz9ec -T 2 $FILE > base.xz
+  xz -vvz9ec -T 1 $FILE > $FILE.xz
+  xz -vvz9ec -T 1 $FILE > base.xz
   cd -
   ls -la $OLDPWD
   gh release create "$BOARD/$CHANNEL/v$VERSION" --title "RecoToSSD $(printf "$BOARD" | awk -vFS="" -vOFS="" '{$1=toupper($1);print $0}') v$CHROME_VERSION (Platform Version: $VERSION) for $(printf $CHANNEL | tr "[:upper:]" "[:lower:]")-channel" --notes "RecoToSSD Release for board $BOARD:
